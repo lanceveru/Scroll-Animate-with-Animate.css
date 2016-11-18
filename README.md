@@ -6,5 +6,11 @@ that will run the animation to the element with scroll event.
 
 Add this to the element data-animate="{animation_style}; {offset}"
 ```html
-<span data-animate="bounce;400px"></span>
+<span data-animate="bounce;400"></span>
 ``` 
+
+or offset value in percentage
+
+```html
+<span data-animate="bounce;60%"></span>
+```
