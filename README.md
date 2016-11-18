@@ -4,4 +4,7 @@ that will run the animation to the element with scroll event.
 
 ## To use
 
-Add this to the element data-animate="<animation_style>; <offset>"
+Add this to the element data-animate="{animation_style}; {offset}"
+```html
+<span data-animate="bounce;400px"></span>
+``` 
