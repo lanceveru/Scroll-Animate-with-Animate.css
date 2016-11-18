@@ -1,2 +1,7 @@
 # Scroll-Animate-with-Animate.css
-Animate.css library comes with various effects for creating cool website and for this I decided to create a Jquery script that will create animation effects to the element.
+Animate.css library comes with various effects for creating a cool site and for this I decided to create a script 
+that will run the animation to the element with scroll event.
+
+## To use
+
+Add this to the element data-animate="<animation_style>; <offset>"
