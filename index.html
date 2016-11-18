@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Scroll and animate</title>
+    
+    <link href="bower_components/animate.css/animate.min.css" rel="stylesheet"/>
+    <style>
+        body, html {margin:0;padding:0;}
+        .div1 {height:500px;background:#222;}
+        .div2 {height:800px;background:#888;}
+        .div3 {height:700px;background:#ccc;}
+        .object {display:block;width:200px;height:20px;
+            background:#fff;margin:0 auto;position:relative;top:200px;
+        }
+    </style>
+</head>
+<body>
+
+
+<div class="div1">
+    <span class="object" data-animate="bounce; 200"></span>
+</div>
+<div class="div2">
+    <span class="object" data-animate="tada;400"></span>
+</div>
+<div class="div3">
+    <span class="object" data-animate="flash;80%"></span>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+
+<script>
+var toAnimate = (function() {
+    'use strict';
+
+    // vars
+    var animateClasses, jsWindow, jsDocument,
+        string, arrValue, thisType, thisOffset;
+
+    var initiate = function() {
+
+        // values
+        animateClasses = $('[data-animate]');
+        jsWindow = $(window);
+        jsDocument = $(document);
+        
+        // run functions
+        _instantiateClasses(animateClasses);
+        jsWindow.scroll(_checkScroll);
+    };
+
+
+    // add and iniatialization
+    var _instantiateClasses = function(elements) {
+        elements.each(function(key, element){
+
+            $(element).addClass('animated');
+
+            thisType = _getAnimationType(element);
+            thisOffset = _getAnimationOffsetInPixel(element);
+
+            var objectPosition = _calculatePosition(element);
+            
+            $(element).text(objectPosition);
+
+            if(objectPosition == thisOffset)
+                $(element).addClass(thisType);
+
+        });
+    };
+
+    var _calculatePosition = function(element) {
+        return $(element).offset().top - jsDocument.scrollTop();
+    };
+
+    var _getAnimationType = function(element) {
+        string = $(element).attr("data-animate");
+        arrValue = string.split(';');
+        return _removeSpace(arrValue[0]);
+    };
+
+    var _getAnimationOffsetInPixel = function(element) {
+        string = $(element).attr("data-animate");
+        arrValue = string.split(';');
+        
+        if(_isPercent(arrValue[1]) === true) {
+            arrValue[1] = _removePercentSymbol(arrValue[1]);
+            return (jsWindow.height() /100) * arrValue[1];
+        }
+        else {
+            return arrValue[1];
+        }
+        
+    };
+
+    var _isPercent = function(str) {
+        if (str.indexOf('%') == -1)
+            return false;
+        else
+            return true;
+    };
+
+    var _removeSpace = function(str) {
+        return str.replace(' ', '');
+    };
+
+    var _removePercentSymbol = function(str) {
+        return str.replace('%', '');
+    };
+
+    var _checkScroll = function() {
+        animateClasses.each(function(key, element){
+            
+            thisType = _getAnimationType(element);
+            thisOffset = _getAnimationOffsetInPixel(element);
+
+            var objectPosition = _calculatePosition(element);
+            
+            if(objectPosition == thisOffset)
+                $(element).addClass(thisType);
+
+        });
+    };
+
+    return {
+        init:initiate
+    };
+
+})();
+
+toAnimate.init();
+
+
+</script>
+
+</body>
+</html>
